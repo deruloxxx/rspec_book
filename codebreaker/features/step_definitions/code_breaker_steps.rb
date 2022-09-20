@@ -20,9 +20,9 @@ Given /"^the secret code is "([^"]*)"$/ do |secret|
   @game.start(secret)
 end
 
-When /"I start a new game"/ do
-  game = Codebreaker::Game.new(output)
-  game.start('1234')
+When /^I start a new game$/ do
+	game = Codebreaker::Game.new(output)
+	game.start('1234')
 end
 
 When /^I guess "([^"]*)"$/ do |guess|
