@@ -15,13 +15,15 @@ end
 Given /^I am not yet playing$/ do
 end
 
-Given /"^the secret code is "([^"]*)"$/ do |secret|
-  @game = Codebreaker::Game.new(output)
+Given /^the secret code is "([^"]*)"$/ do |secret|
+  @messenger = StringIO.new
+  @game = Codebreaker::Game.new(@messenger)
   @game.start(secret)
 end
 
 When /^I start a new game$/ do
-	game = Codebreaker::Game.new(output)
+  @messenger = StringIO.new
+	game = Codebreaker::Game.new(@messenger)
 	game.start('1234')
 end
 
@@ -30,9 +32,9 @@ When /^I guess "([^"]*)"$/ do |guess|
 end
 
 Then /^I should see "([^"]*)"$/ do |message|
-  expect(memolaizeOutput.messages).to include(message)
+  expect(@messenger.string.split("\n")).to include(message)
 end
 
 Then /^the mark should be "([^"]*)"$/ do |mark|
-  expect(output.messages).to include(mark)
+  expect(@messenger.string.split("\n")).to include(mark)
 end
